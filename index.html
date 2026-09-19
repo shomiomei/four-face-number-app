@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>4面数字集計</title>
+<title>数字集計</title>
 
 <style>
 *{
@@ -15,7 +15,7 @@ body{
   margin:0;
   background:#f5f1e8;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",
-              "Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
+  "Hiragino Kaku Gothic ProN",Meiryo,sans-serif;
   color:#333;
 }
 
@@ -23,63 +23,65 @@ header{
   background:#5f8f68;
   color:white;
   text-align:center;
-  padding:18px 10px;
+  padding:15px 10px;
 }
 
 header h1{
   margin:0;
-  font-size:22px;
-}
-
-header p{
-  margin:5px 0 0;
-  font-size:13px;
+  font-size:21px;
 }
 
 .container{
-  max-width:700px;
+  max-width:900px;
   margin:auto;
-  padding:15px;
+  padding:12px;
 }
 
-.face{
+/* 4セット */
+.sets{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.set{
   background:white;
-  border-radius:14px;
-  padding:14px;
-  margin-bottom:15px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  border-radius:10px;
+  padding:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.1);
+}
+
+.set-title{
+  text-align:center;
+  font-weight:bold;
+  margin-bottom:8px;
+  font-size:16px;
+}
+
+/* 面 */
+.face{
+  margin-bottom:8px;
 }
 
 .face-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:10px;
-}
-
-.face-title h2{
-  margin:0;
-  font-size:18px;
-}
-
-.face-total{
-  font-size:13px;
-  color:#666;
+  font-weight:bold;
+  font-size:14px;
+  margin-bottom:5px;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:7px;
+  gap:4px;
 }
 
 .cell{
   width:100%;
   aspect-ratio:1/1;
-  border:2px solid #ddd;
-  border-radius:9px;
+  border:1px solid #ccc;
+  border-radius:5px;
   text-align:center;
-  font-size:20px;
+  font-size:17px;
   font-weight:bold;
   background:#fafafa;
 }
@@ -90,97 +92,101 @@ header p{
   background:#eef7ef;
 }
 
+.face-total{
+  text-align:right;
+  font-size:11px;
+  color:#666;
+  margin-top:3px;
+}
+
+/* 集計 */
 .summary{
   background:white;
-  border-radius:14px;
-  padding:15px;
-  margin-top:15px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
+  border-radius:10px;
+  padding:12px;
+  margin-top:12px;
+  box-shadow:0 1px 4px rgba(0,0,0,.1);
 }
 
 .summary h2{
-  margin-top:0;
-  font-size:19px;
+  margin:0 0 8px;
+  font-size:18px;
 }
 
-.main-stats{
+.stats{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+  margin-bottom:8px;
 }
 
 .stat{
   background:#f5f1e8;
-  border-radius:10px;
-  padding:12px;
+  border-radius:6px;
+  padding:7px;
   text-align:center;
 }
 
-.stat-label{
-  font-size:12px;
+.stat small{
+  display:block;
+  font-size:10px;
   color:#666;
 }
 
-.stat-value{
-  font-size:25px;
-  font-weight:bold;
-  margin-top:3px;
+.stat strong{
+  font-size:18px;
 }
 
 table{
   width:100%;
   border-collapse:collapse;
-  margin-top:15px;
+  margin-top:8px;
 }
 
 th,td{
-  padding:9px 5px;
   border-bottom:1px solid #ddd;
+  padding:5px;
   text-align:center;
+  font-size:13px;
 }
 
 th{
   background:#f5f1e8;
-  font-size:13px;
 }
 
-td{
-  font-size:14px;
+.set-results{
+  margin-top:10px;
 }
 
-.face-results{
-  margin-top:15px;
-}
-
-.face-result{
+.set-results div{
   display:flex;
   justify-content:space-between;
-  padding:9px 5px;
+  padding:6px;
   border-bottom:1px solid #eee;
+  font-size:13px;
 }
 
 .buttons{
   display:flex;
-  gap:10px;
-  margin-top:15px;
+  gap:8px;
+  margin-top:12px;
 }
 
 button{
   flex:1;
-  min-height:46px;
+  min-height:42px;
   border:0;
-  border-radius:10px;
-  font-size:15px;
+  border-radius:7px;
+  font-size:14px;
   font-weight:bold;
-  cursor:pointer;
 }
 
-.clear-btn{
+.clear{
   background:#777;
   color:white;
 }
 
-.top-btn{
+.top{
   background:#5f8f68;
   color:white;
 }
@@ -188,18 +194,34 @@ button{
 .note{
   text-align:center;
   color:#777;
-  font-size:12px;
-  margin:15px 0;
+  font-size:11px;
+  margin:12px 0;
 }
 
-@media(max-width:380px){
-  .grid{
-    gap:5px;
+/* スマホでは1セットずつ表示 */
+@media(max-width:600px){
+
+  .sets{
+    grid-template-columns:1fr 1fr;
+    gap:8px;
   }
 
   .cell{
-    font-size:17px;
+    font-size:16px;
   }
+
+}
+
+@media(max-width:400px){
+
+  .sets{
+    grid-template-columns:1fr;
+  }
+
+  .cell{
+    font-size:19px;
+  }
+
 }
 </style>
 </head>
@@ -207,485 +229,643 @@ button{
 <body>
 
 <header>
-  <h1>🔢 4面・数字集計</h1>
-  <p>0〜5 または「-」を入力してください</p>
+  <h1>🔢 数字集計</h1>
+  <div>0〜5 または「-」を入力</div>
 </header>
 
 <div class="container">
 
-  <!-- 1面 -->
+<!-- ========================= -->
+<!-- 4セット -->
+<!-- ========================= -->
+
+<div class="sets">
+
+<!-- セット1 -->
+<div class="set">
+  <div class="set-title">①セット</div>
+
   <div class="face">
-    <div class="face-title">
-      <h2>1面</h2>
-      <div class="face-total" id="faceTotal1">合計 0</div>
-    </div>
+    <div class="face-title">上1面</div>
     <div class="grid" id="grid1"></div>
+    <div class="face-total" id="faceTotal1">合計 0</div>
   </div>
 
-  <!-- 2面 -->
   <div class="face">
-    <div class="face-title">
-      <h2>2面</h2>
-      <div class="face-total" id="faceTotal2">合計 0</div>
-    </div>
+    <div class="face-title">下1面</div>
     <div class="grid" id="grid2"></div>
+    <div class="face-total" id="faceTotal2">合計 0</div>
   </div>
+</div>
 
-  <!-- 3面 -->
+
+<!-- セット2 -->
+<div class="set">
+  <div class="set-title">②セット</div>
+
   <div class="face">
-    <div class="face-title">
-      <h2>3面</h2>
-      <div class="face-total" id="faceTotal3">合計 0</div>
-    </div>
+    <div class="face-title">上2面</div>
     <div class="grid" id="grid3"></div>
+    <div class="face-total" id="faceTotal3">合計 0</div>
   </div>
 
-  <!-- 4面 -->
   <div class="face">
-    <div class="face-title">
-      <h2>4面</h2>
-      <div class="face-total" id="faceTotal4">合計 0</div>
-    </div>
+    <div class="face-title">下2面</div>
     <div class="grid" id="grid4"></div>
+    <div class="face-total" id="faceTotal4">合計 0</div>
+  </div>
+</div>
+
+
+<!-- セット3 -->
+<div class="set">
+  <div class="set-title">③セット</div>
+
+  <div class="face">
+    <div class="face-title">上3面</div>
+    <div class="grid" id="grid5"></div>
+    <div class="face-total" id="faceTotal5">合計 0</div>
   </div>
 
-  <!-- 集計 -->
-  <div class="summary">
+  <div class="face">
+    <div class="face-title">下3面</div>
+    <div class="grid" id="grid6"></div>
+    <div class="face-total" id="faceTotal6">合計 0</div>
+  </div>
+</div>
 
-    <h2>📊 全体集計</h2>
 
-    <div class="main-stats">
+<!-- セット4 -->
+<div class="set">
+  <div class="set-title">④セット</div>
 
-      <div class="stat">
-        <div class="stat-label">数字の合計</div>
-        <div class="stat-value" id="total">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">入力マス数</div>
-        <div class="stat-value" id="count">0</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">平均</div>
-        <div class="stat-value" id="average">-</div>
-      </div>
-
-      <div class="stat">
-        <div class="stat-label">全マス</div>
-        <div class="stat-value">96</div>
-      </div>
-
-    </div>
-
-    <table>
-
-      <thead>
-        <tr>
-          <th>数字</th>
-          <th>個数</th>
-          <th>割合</th>
-        </tr>
-      </thead>
-
-      <tbody id="breakdown"></tbody>
-
-    </table>
-
-    <div class="face-results">
-
-      <h3>面ごとの集計</h3>
-
-      <div class="face-result">
-        <span>1面</span>
-        <strong id="result1">0</strong>
-      </div>
-
-      <div class="face-result">
-        <span>2面</span>
-        <strong id="result2">0</strong>
-      </div>
-
-      <div class="face-result">
-        <span>3面</span>
-        <strong id="result3">0</strong>
-      </div>
-
-      <div class="face-result">
-        <span>4面</span>
-        <strong id="result4">0</strong>
-      </div>
-
-    </div>
-
-    <div class="buttons">
-
-      <button class="clear-btn" id="clearBtn">
-        🗑 全てクリア
-      </button>
-
-      <button class="top-btn" id="topBtn">
-        ↑ 上に戻る
-      </button>
-
-    </div>
-
+  <div class="face">
+    <div class="face-title">上4面</div>
+    <div class="grid" id="grid7"></div>
+    <div class="face-total" id="faceTotal7">合計 0</div>
   </div>
 
-  <div class="note">
-    入力内容はこのスマートフォン内だけに保存されます。
+  <div class="face">
+    <div class="face-title">下4面</div>
+    <div class="grid" id="grid8"></div>
+    <div class="face-total" id="faceTotal8">合計 0</div>
   </div>
+</div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- 上4面 -->
+<!-- ========================= -->
+
+<div class="summary">
+
+<h2>⬆️ 上4面の集計</h2>
+
+<div class="stats">
+  <div class="stat">
+    <small>合計</small>
+    <strong id="upperTotal">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>入力数</small>
+    <strong id="upperCount">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>平均</small>
+    <strong id="upperAverage">-</strong>
+  </div>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>個数</th>
+<th>割合</th>
+</tr>
+</thead>
+<tbody id="upperBreakdown"></tbody>
+</table>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- 下4面 -->
+<!-- ========================= -->
+
+<div class="summary">
+
+<h2>⬇️ 下4面の集計</h2>
+
+<div class="stats">
+  <div class="stat">
+    <small>合計</small>
+    <strong id="lowerTotal">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>入力数</small>
+    <strong id="lowerCount">0</strong>
+  </div>
+
+  <div class="stat">
+    <small>平均</small>
+    <strong id="lowerAverage">-</strong>
+  </div>
+</div>
+
+<table>
+<thead>
+<tr>
+<th>数字</th>
+<th>個数</th>
+<th>割合</th>
+</tr>
+</thead>
+<tbody id="lowerBreakdown"></tbody>
+</table>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- 4セット -->
+<!-- ========================= -->
+
+<div class="summary">
+
+<h2>📊 4セットの集計</h2>
+
+<div class="set-results">
+
+<div>
+<span>①セット（上1＋下1）</span>
+<strong id="setTotal1">0</strong>
+</div>
+
+<div>
+<span>②セット（上2＋下2）</span>
+<strong id="setTotal2">0</strong>
+</div>
+
+<div>
+<span>③セット（上3＋下3）</span>
+<strong id="setTotal3">0</strong>
+</div>
+
+<div>
+<span>④セット（上4＋下4）</span>
+<strong id="setTotal4">0</strong>
+</div>
+
+</div>
+
+<div class="buttons">
+
+<button class="clear" id="clearBtn">
+🗑 全てクリア
+</button>
+
+<button class="top" id="topBtn">
+↑ 上に戻る
+</button>
+
+</div>
+
+</div>
+
+
+<div class="note">
+入力内容はこのスマートフォン内に保存されます。
+</div>
 
 </div>
 
 
 <script>
 
-const STORAGE_KEY = "fourFaceNumberApp";
+const STORAGE_KEY = "simpleNumberApp";
 
 
-// =========================
-// マスを作成
-// =========================
+/* =========================
+   マスを作る
+========================= */
 
 function createGrids(){
 
-  for(let face=1; face<=4; face++){
+  for(let face=1; face<=8; face++){
 
     const grid =
       document.getElementById("grid" + face);
 
-    for(let i=0; i<24; i++){
+    for(let i=0; i<12; i++){
 
       const input =
         document.createElement("input");
 
       input.type = "text";
-
       input.className = "cell";
-
       input.maxLength = 1;
-
       input.inputMode = "numeric";
-
       input.autocomplete = "off";
 
-      input.setAttribute(
-        "aria-label",
-        face + "面 " + (i+1) + "番目"
-      );
+      input.addEventListener("input",function(){
 
-      input.addEventListener(
-        "input",
-        function(){
+        let value = this.value.trim();
 
-          let value =
-            this.value.trim();
+        /* 全角数字を半角へ */
+        value = value.replace(/[０-５]/g,function(s){
+          return String.fromCharCode(
+            s.charCodeAt(0)-0xFEE0
+          );
+        });
 
-          // 全角数字を半角に変換
-          value =
-            value.replace(/[０-５]/g,
-              function(s){
-                return String.fromCharCode(
-                  s.charCodeAt(0) - 0xFEE0
-                );
-              });
-
-          // マイナス記号を統一
-          if(value === "−"){
-            value = "-";
-          }
-
-          // 0〜5と-以外は削除
-          if(
-            value !== "" &&
-            value !== "-" &&
-            !/^[0-5]$/.test(value)
-          ){
-            value = "";
-          }
-
-          this.value = value;
-
-          saveData();
-
-          calculate();
-
+        if(value === "−"){
+          value = "-";
         }
-      );
 
+        /* 0〜5と-以外を削除 */
+        if(
+          value !== "" &&
+          value !== "-" &&
+          !/^[0-5]$/.test(value)
+        ){
+          value = "";
+        }
 
-      // Enterで次のマスへ
-      input.addEventListener(
-        "keydown",
-        function(e){
+        this.value = value;
 
-          if(e.key === "Enter"){
+        saveData();
+        calculate();
 
-            e.preventDefault();
+      });
 
-            const all =
-              Array.from(
-                document.querySelectorAll(".cell")
-              );
+      /* Enterで次のマスへ */
+      input.addEventListener("keydown",function(e){
 
-            const index =
-              all.indexOf(this);
+        if(e.key === "Enter"){
 
-            if(all[index + 1]){
-              all[index + 1].focus();
-            }
+          e.preventDefault();
 
+          const all =
+            Array.from(
+              document.querySelectorAll(".cell")
+            );
+
+          const index = all.indexOf(this);
+
+          if(all[index+1]){
+            all[index+1].focus();
           }
 
         }
-      );
 
+      });
 
       grid.appendChild(input);
-
     }
-
   }
-
 }
 
 
-// =========================
-// データ保存
-// =========================
+/* =========================
+   保存
+========================= */
 
 function saveData(){
 
-  const cells =
-    document.querySelectorAll(".cell");
-
   const data =
-    Array.from(cells).map(
-      cell => cell.value
-    );
+    Array.from(
+      document.querySelectorAll(".cell")
+    ).map(cell => cell.value);
 
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify(data)
   );
-
 }
 
 
-// =========================
-// データ読み込み
-// =========================
+/* =========================
+   読み込み
+========================= */
 
 function loadData(){
 
   const saved =
     localStorage.getItem(STORAGE_KEY);
 
-  if(!saved){
-    return;
-  }
+  if(!saved) return;
 
   try{
 
     const data =
       JSON.parse(saved);
 
-    const cells =
-      document.querySelectorAll(".cell");
-
-    cells.forEach(
-      (cell,index)=>{
-        cell.value =
-          data[index] || "";
-      }
-    );
+    document
+      .querySelectorAll(".cell")
+      .forEach((cell,index)=>{
+        cell.value = data[index] || "";
+      });
 
   }catch(e){
 
-    console.log(
-      "保存データを読み込めませんでした"
-    );
+    console.log("読み込みエラー");
 
   }
-
 }
 
 
-// =========================
-// 集計
-// =========================
+/* =========================
+   集計
+========================= */
+
+function getStats(startFace,endFace){
+
+  let total = 0;
+  let count = 0;
+
+  const numbers =
+    [0,0,0,0,0,0];
+
+  const cells =
+    document.querySelectorAll(".cell");
+
+  for(
+    let face=startFace;
+    face<=endFace;
+    face++
+  ){
+
+    const start =
+      (face-1)*12;
+
+    const end =
+      start+12;
+
+    for(let i=start;i<end;i++){
+
+      const value =
+        cells[i].value;
+
+      if(/^[0-5]$/.test(value)){
+
+        const n = Number(value);
+
+        total += n;
+        count++;
+
+        numbers[n]++;
+      }
+    }
+  }
+
+  return {
+    total,
+    count,
+    numbers
+  };
+}
+
+
+/* =========================
+   集計表示
+========================= */
+
+function showStats(
+  stats,
+  totalId,
+  countId,
+  averageId,
+  breakdownId
+){
+
+  document.getElementById(totalId)
+    .textContent = stats.total;
+
+  document.getElementById(countId)
+    .textContent = stats.count;
+
+  document.getElementById(averageId)
+    .textContent =
+      stats.count > 0
+      ? (stats.total / stats.count).toFixed(2)
+      : "-";
+
+  const tbody =
+    document.getElementById(breakdownId);
+
+  tbody.innerHTML = "";
+
+  for(let n=0;n<=5;n++){
+
+    const percentage =
+      stats.count > 0
+      ? stats.numbers[n] / stats.count * 100
+      : 0;
+
+    const row =
+      document.createElement("tr");
+
+    row.innerHTML =
+      "<td><strong>"+n+"</strong></td>" +
+      "<td>"+stats.numbers[n]+"</td>" +
+      "<td>"+percentage.toFixed(1)+"%</td>";
+
+    tbody.appendChild(row);
+  }
+}
+
+
+/* =========================
+   全体計算
+========================= */
 
 function calculate(){
 
   const cells =
     document.querySelectorAll(".cell");
 
-  let total = 0;
 
-  let count = 0;
-
-  const numbers =
-    [0,0,0,0,0,0];
+  /* 各面の合計 */
 
   const faceTotals =
-    [0,0,0,0];
+    [0,0,0,0,0,0,0,0];
 
 
-  cells.forEach(
-    (cell,index)=>{
+  cells.forEach((cell,index)=>{
 
-      const value =
-        cell.value;
+    if(/^[0-5]$/.test(cell.value)){
 
-      if(/^[0-5]$/.test(value)){
+      const face =
+        Math.floor(index/12);
 
-        const number =
-          Number(value);
-
-        total += number;
-
-        count++;
-
-        numbers[number]++;
-
-        const face =
-          Math.floor(index / 24);
-
-        faceTotals[face] += number;
-
-      }
+      faceTotals[face] +=
+        Number(cell.value);
 
     }
+
+  });
+
+
+  /* 各面表示 */
+
+  for(let i=0;i<8;i++){
+
+    document.getElementById(
+      "faceTotal"+(i+1)
+    ).textContent =
+      "合計 "+faceTotals[i];
+
+  }
+
+
+  /* 上4面 */
+
+  const upper =
+    getStats(1,1);
+
+  const upper2 =
+    getStats(3,3);
+
+  const upper3 =
+    getStats(5,5);
+
+  const upper4 =
+    getStats(7,7);
+
+
+  const upperStats = combineStats([
+    upper,
+    upper2,
+    upper3,
+    upper4
+  ]);
+
+  showStats(
+    upperStats,
+    "upperTotal",
+    "upperCount",
+    "upperAverage",
+    "upperBreakdown"
   );
 
 
-  // 全体
-  document.getElementById("total")
-    .textContent = total;
+  /* 下4面 */
 
-  document.getElementById("count")
-    .textContent = count;
+  const lower =
+    combineStats([
+      getStats(2,2),
+      getStats(4,4),
+      getStats(6,6),
+      getStats(8,8)
+    ]);
+
+  showStats(
+    lower,
+    "lowerTotal",
+    "lowerCount",
+    "lowerAverage",
+    "lowerBreakdown"
+  );
 
 
-  document.getElementById("average")
+  /* 4セット */
+
+  document.getElementById("setTotal1")
     .textContent =
-      count > 0
-        ? (total / count).toFixed(2)
-        : "-";
+      faceTotals[0]+faceTotals[1];
 
+  document.getElementById("setTotal2")
+    .textContent =
+      faceTotals[2]+faceTotals[3];
 
-  // 面ごとの合計
-  for(let i=0;i<4;i++){
+  document.getElementById("setTotal3")
+    .textContent =
+      faceTotals[4]+faceTotals[5];
 
-    document.getElementById(
-      "faceTotal" + (i+1)
-    ).textContent =
-      "合計 " + faceTotals[i];
-
-    document.getElementById(
-      "result" + (i+1)
-    ).textContent =
-      faceTotals[i];
-
-  }
-
-
-  // 0〜5の集計
-  const tbody =
-    document.getElementById("breakdown");
-
-  tbody.innerHTML = "";
-
-
-  for(let number=0;number<=5;number++){
-
-    const row =
-      document.createElement("tr");
-
-    const percentage =
-      count > 0
-        ? (numbers[number] / count * 100)
-        : 0;
-
-
-    row.innerHTML =
-
-      "<td><strong>" +
-      number +
-      "</strong></td>" +
-
-      "<td>" +
-      numbers[number] +
-      "マス</td>" +
-
-      "<td>" +
-      percentage.toFixed(1) +
-      "%</td>";
-
-
-    tbody.appendChild(row);
-
-  }
+  document.getElementById("setTotal4")
+    .textContent =
+      faceTotals[6]+faceTotals[7];
 
 }
 
 
-// =========================
-// 全てクリア
-// =========================
+/* =========================
+   集計を合算
+========================= */
+
+function combineStats(list){
+
+  const result = {
+    total:0,
+    count:0,
+    numbers:[0,0,0,0,0,0]
+  };
+
+  list.forEach(stats=>{
+
+    result.total += stats.total;
+    result.count += stats.count;
+
+    for(let i=0;i<=5;i++){
+      result.numbers[i] +=
+        stats.numbers[i];
+    }
+
+  });
+
+  return result;
+}
+
+
+/* =========================
+   全てクリア
+========================= */
 
 document.getElementById("clearBtn")
-  .addEventListener(
-    "click",
-    function(){
+.addEventListener("click",function(){
 
-      const answer =
-        confirm(
-          "入力した96マスを全て消しますか？"
-        );
+  if(!confirm("96マスを全て消しますか？")){
+    return;
+  }
 
-      if(!answer){
-        return;
-      }
+  document
+    .querySelectorAll(".cell")
+    .forEach(cell=>{
+      cell.value="";
+    });
 
-      document
-        .querySelectorAll(".cell")
-        .forEach(
-          cell => cell.value = ""
-        );
+  localStorage.removeItem(STORAGE_KEY);
 
-      localStorage.removeItem(
-        STORAGE_KEY
-      );
+  calculate();
 
-      calculate();
-
-    }
-  );
+});
 
 
-// =========================
-// 上に戻る
-// =========================
+/* =========================
+   上へ戻る
+========================= */
 
 document.getElementById("topBtn")
-  .addEventListener(
-    "click",
-    function(){
+.addEventListener("click",function(){
 
-      window.scrollTo({
-        top:0,
-        behavior:"smooth"
-      });
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
-    }
-  );
+});
 
 
-// =========================
-// 起動
-// =========================
+/* =========================
+   起動
+========================= */
 
 createGrids();
 
